@@ -50,3 +50,12 @@ It may be easier to setup a script in your local environment to run Aglio, rathe
 * Generate your docs
 
         $ aglio <path to your file>
+
+
+### Use Case #3: Running From Apache Maven
+
+*aglio-docker* can be integrated into an Apache Maven build using the [docker-maven-plugin](https://github.com/rhuss/docker-maven-plugin). This plugin provides the means to pull/run a Docker container with a specific command.
+
+> NOTE: The *docker-maven-plugin* plugin assumes that you have Docker installed and running on your host.
+
+There is a Maven project in `examples/hello` that demonstrates using the *docker-maven-plugin* to generate HTML docs with Aglio.

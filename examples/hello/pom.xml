@@ -20,7 +20,7 @@
                         <configuration>
                             <tasks>
                                 <echo message="Creating documentation directory"/>
-                                <mkdir dir="${project.build.directory}/docs" />
+                                <mkdir dir="${project.build.directory}/html" />
                             </tasks>
                         </configuration>
                         <goals>
@@ -44,10 +44,10 @@
                             <name>humangeo/aglio</name>
                             <alias>aglio</alias>
                             <run>
-                                <cmd>-i /docs/src/main/resources/docs/hello.md -o /docs/target/docs/hello.html</cmd>
+                                <cmd>-i /docs/src/main/resources/docs/hello.md -o /docs/target/html/index.html</cmd>
                                 <volumes>
                                     <bind>
-                                        <volume>${project.basedir}:/docs</volume> 
+                                        <volume>${project.basedir}:/docs</volume>
                                     </bind>
                                 </volumes>
                                 <log>
