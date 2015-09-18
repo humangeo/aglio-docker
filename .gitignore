@@ -1,0 +1,27 @@
+# .gitignore --- Configures files to ignore from this Git repository.
+
+# --------------------
+# Generated Files
+# --------------------
+target
+
+
+# --------------------
+# IDE Cruft
+# --------------------
+classes
+.classpath
+.project
+.settings
+*.iml
+.idea
+nbproject
+nb-configuration.xml
+nbactions.xml
+
+
+# --------------------
+# Misc.
+# --------------------
+.DS_Store
+*~
