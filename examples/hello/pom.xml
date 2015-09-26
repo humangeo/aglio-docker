@@ -16,7 +16,7 @@
                 <version>1.8</version>
                 <executions>
                     <execution>
-                        <phase>generate-test-resources</phase>
+                        <phase>generate-resources</phase>
                         <configuration>
                             <tasks>
                                 <echo message="Creating documentation directory"/>
@@ -63,7 +63,7 @@
                 <executions>
                     <execution>
                         <id>docs</id>
-                        <phase>package</phase>
+                        <phase>generate-resources</phase>
                         <goals>
                             <goal>start</goal>
                         </goals>
