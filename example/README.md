@@ -1,4 +1,4 @@
-# hello (docker-maven-plugin & aglio-docker demo)
+# Example App: docker-maven-plugin + aglio-docker
 
 This project provides an example of using the [docker-maven-plugin](https://github.com/rhuss/docker-maven-plugin) to generated documentation with Aglio.
 
@@ -7,6 +7,7 @@ This project provides an example of using the [docker-maven-plugin](https://gith
 
 To generate the docs:
 
-    $ mvn clean package
+	$ cd my_app
+	$ mvn clean generate-resources
 
-This will create the documentation for the fictional "hello" service in `target/html/index.html`
+This will convert `docs/my_rest_api.md` to `my_app/target/classes/html/my_rest_api.html`.
