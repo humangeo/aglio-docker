@@ -8,7 +8,6 @@
 # --------------------
 # IDE Cruft
 # --------------------
-classes
 .classpath
 .project
 .settings
