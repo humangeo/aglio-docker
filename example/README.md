@@ -8,6 +8,6 @@ This project provides an example of using the [docker-maven-plugin](https://gith
 To generate the docs:
 
 	$ cd my_app
-	$ mvn clean generate-resources
+	$ mvn clean process-resources
 
 This will convert `docs/my_rest_api.md` to `my_app/target/classes/html/my_rest_api.html`.
