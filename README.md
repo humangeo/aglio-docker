@@ -58,4 +58,4 @@ It may be easier to setup a script in your local environment to run Aglio, rathe
 
 > NOTE: The *docker-maven-plugin* plugin assumes that you have Docker installed and running on your host.
 
-There is a Maven project in `examples/hello` that demonstrates using the *docker-maven-plugin* to generate HTML docs with Aglio.
+There is a Maven project in the `example` directory that demonstrates using the *docker-maven-plugin* to generate HTML docs with Aglio.
