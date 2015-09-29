@@ -36,25 +36,29 @@
             </plugin>
             <plugin>
                 <groupId>org.jolokia</groupId>
+                <!-- For intro to this plugin see https://github.com/rhuss/docker-maven-plugin/blob/master/doc/intro.md -->
                 <artifactId>docker-maven-plugin</artifactId>
                 <version>0.13.4</version>
                 <configuration>
                     <!--
-                    Note: to actually see Aglio's console output you'll need to run `docker logs {container id}` 
+                    Note: to actually see Aglio's console output you'll need to run `docker logs <container id>` 
                     after the container finishes running.
                 	-->
                     <showLogs>true</showLogs>
                     <verbose>true</verbose>
-                    <keepContainer>false</keepContainer>
                     <removeVolumes>true</removeVolumes>
+
                     <image>aglio</image>
                     <images>
                         <image>
+                            <!-- Specify name of Docker image to pull (i.e., `docker pull <image name>`). Pull is automatic. -->
                             <name>humangeo/aglio</name>
+                            <!-- Give the container a name vs. Docker's randomly-generated names -->
                             <alias>aglio</alias>
                             <run>
+                                <namingStrategy>alias</namingStrategy>
                                 <!--
-                                    The humangeo/algio Docker container is set up to run the 'aglio' command-line binary
+                                    The humangeo/algio Docker image is set up to run the 'aglio' command-line binary
                                     on startup (i.e., via the ENTRYPOINT command in the Dockerfile). The <cmd> below is
                                     the set of command-line arguments passed to the 'aglio' command. For more info on
                                     the aglio arguments see https://github.com/danielgtaylor/aglio.
@@ -75,8 +79,6 @@
                                 <log>
                                     <enabled>true</enabled>
                                     <prefix>aglio</prefix>
-                                    <date>DEFAULT</date>
-                                    <color>red</color>
                                 </log>
                             </run>
                         </image>
@@ -84,7 +86,7 @@
                 </configuration>
                 <executions>
                     <execution>
-                        <id>docs</id>
+                        <id>start-the-container</id>
                         <!--
                             IMPORTANT: Run as part of the generate-resources phase so the Aglio-generated HTML will be
                             included in the output JAR file (i.e., generated BEFORE .jar is made as part of 'package' phase).
@@ -92,6 +94,13 @@
                         <phase>generate-resources</phase>
                         <goals>
                             <goal>start</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>remove-the-container</id>
+                        <phase>process-resources</phase>
+                        <goals>
+                            <goal>stop</goal>
                         </goals>
                     </execution>
                 </executions>
