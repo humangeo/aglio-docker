@@ -3,13 +3,11 @@
 # --------------------
 # Generated Files
 # --------------------
-target
-
+**/target/antrun
 
 # --------------------
 # IDE Cruft
 # --------------------
-classes
 .classpath
 .project
 .settings

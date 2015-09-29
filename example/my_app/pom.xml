@@ -4,9 +4,15 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>examples.aglio</groupId>
-    <artifactId>hello</artifactId>
+    <artifactId>my-app</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
+
+    <parent>
+        <groupId>examples.aglio</groupId>
+        <artifactId>my-app-root</artifactId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
 
     <build>
         <plugins>
@@ -19,8 +25,7 @@
                         <phase>generate-resources</phase>
                         <configuration>
                             <tasks>
-                                <echo message="Creating documentation directory"/>
-                                <mkdir dir="${project.build.directory}/html" />
+                                <mkdir dir="${project.build.directory}/classes/html" />
                             </tasks>
                         </configuration>
                         <goals>
@@ -34,6 +39,10 @@
                 <artifactId>docker-maven-plugin</artifactId>
                 <version>0.13.4</version>
                 <configuration>
+                    <!--
+                    Note: to actually see Aglio's console output you'll need to run `docker logs {container id}` 
+                    after the container finishes running.
+                	-->
                     <showLogs>true</showLogs>
                     <verbose>true</verbose>
                     <keepContainer>false</keepContainer>
@@ -44,10 +53,23 @@
                             <name>humangeo/aglio</name>
                             <alias>aglio</alias>
                             <run>
-                                <cmd>-i /docs/src/main/resources/docs/hello.md -o /docs/target/html/index.html</cmd>
+                                <!--
+                                    The humangeo/algio Docker container is set up to run the 'aglio' command-line binary
+                                    on startup (i.e., via the ENTRYPOINT command in the Dockerfile). The <cmd> below is
+                                    the set of command-line arguments passed to the 'aglio' command. For more info on
+                                    the aglio arguments see https://github.com/danielgtaylor/aglio.
+
+                                    IMPORTANT: Note how volumes are mounted from host machine to Docker container below;
+                                    the paths in these arguments use those shared volumes.
+                                -->
+                                <cmd>-i /shared_input_dir/my_rest_api.md -o /shared_output_dir/classes/html/my_rest_api.html</cmd>
                                 <volumes>
                                     <bind>
-                                        <volume>${project.basedir}:/docs</volume>
+                                        <!-- Mount the local ../my_docs dir to /shared_input_dir in the Docker container -->
+                                        <volume>${project.parent.basedir}/my_docs:/shared_input_dir</volume>
+
+                                        <!-- Mount the local ./target dir to /shared_output_dir in the Docker container -->
+                                        <volume>${project.build.directory}:/shared_output_dir</volume>
                                     </bind>
                                 </volumes>
                                 <log>
@@ -63,6 +85,10 @@
                 <executions>
                     <execution>
                         <id>docs</id>
+                        <!--
+                            IMPORTANT: Run as part of the generate-resources phase so the Aglio-generated HTML will be
+                            included in the output JAR file (i.e., generated BEFORE .jar is made as part of 'package' phase).
+                        -->
                         <phase>generate-resources</phase>
                         <goals>
                             <goal>start</goal>
