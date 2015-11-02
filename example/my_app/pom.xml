@@ -35,10 +35,20 @@
                 </executions>
             </plugin>
             <plugin>
+                <!--
+                Note that this section simply configures how the docker-maven-plugin works but does not actually cause
+                it to run; it does not specify any <execution> sections. Instead, the executions are configured in a
+                custom <profile> below called "docs". This means you don't have to run aglio with every build (which
+                means slowing down the build); instead, just activate the "docs" profile when you want to build docs.
+
+                IMPORTANT: This plugin requires Docker to be installed and for your current shell to be initialized
+                with the Docker environment variables.
+
+                For more info see https://github.com/rhuss/docker-maven-plugin/blob/master/doc/intro.md
+                -->
                 <groupId>org.jolokia</groupId>
-                <!-- For intro to this plugin see https://github.com/rhuss/docker-maven-plugin/blob/master/doc/intro.md -->
                 <artifactId>docker-maven-plugin</artifactId>
-                <version>0.13.4</version>
+                <version>0.13.6</version>
                 <configuration>
                     <!--
                     Note: to actually see Aglio's console output you'll need to run `docker logs <container id>` 
@@ -53,6 +63,7 @@
                         <image>
                             <!-- Specify name of Docker image to pull (i.e., `docker pull <image name>`). Pull is automatic. -->
                             <name>humangeo/aglio</name>
+
                             <!-- Give the container a name vs. Docker's randomly-generated names -->
                             <alias>aglio</alias>
                             <run>
@@ -80,6 +91,25 @@
                                     <enabled>true</enabled>
                                     <prefix>aglio</prefix>
                                 </log>
+                                <wait>
+                                    <exec>
+                                        <!--
+                                        In effect, the following command ensures that Maven won't kill the Docker
+                                        container while it's still running. More specifically, it prevents Maven from
+                                        moving to the next build phase until the aglio command has finished running.
+                                        This is important because in our use case one build phase (e.g., generate-resources)
+                                        starts the container / run 'aglio', and another phase (e.g., process-resources)
+                                        removes the container, like running 'docker rm' to clean up old containers. If
+                                        Maven moves from 'generate-resources' to 'process-resources' too quickly it can
+                                        cause the container to be killed and removed BEFORE Aglio has finished running.
+
+                                        Note that this does NOT cause Maven to wait X seconds until moving on to the next
+                                        build phase. The "wait" timer only applies to running containers; as soon as the
+                                        container dies Maven will proceed.
+                                        -->
+                                        <postStart>/bin/bash -c sleep\ 300</postStart>
+                                    </exec>
+                                </wait>
                             </run>
                         </image>
                     </images>
@@ -100,6 +130,10 @@
                         <id>remove-the-container</id>
                         <phase>process-resources</phase>
                         <goals>
+                            <!--
+                                Do some clean-up and removing the container now that aglio is done (akin to running 'docker rm').
+                                Note that if you don't do this you end up with hundreds of dead containers.
+                            -->
                             <goal>stop</goal>
                         </goals>
                     </execution>
