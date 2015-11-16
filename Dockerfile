@@ -1,4 +1,4 @@
-FROM debian:jessie
+FROM node:0-slim
 
 ADD docker-provision.sh /tmp/
 RUN cd /tmp/ && sh docker-provision.sh
