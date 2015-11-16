@@ -2,7 +2,7 @@
 # docker-provision.sh --- Provisioning script for a Docker container w/Aglio.
 NODE_VERSION="0.12.7"
 NPM_VERSION="2.14.1"
-AGLIO_VERSION="2.1.1"
+AGLIO_VERSION="2.2.0"
 
 
 # General packages needed to build Node modules. This list is based on the list
