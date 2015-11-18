@@ -5,20 +5,23 @@
 #
 
 print_usage() {
-	echo "Usage: -i <input dir> -o <output dir>"
+	echo "Usage: -i <input dir> -o <output dir> [-l]"
 }
 
 input_dir=""
 output_dir=""
+local_assets=""
 
 # Note: place a colon after every option for which there should be an additional
 # option argument (e..g, -i <indir> means "i:").
-while getopts "i:o:" opt; do
+while getopts "i:o:l" opt; do
 	case $opt in
 		i)  input_dir=$OPTARG
 			;;
 		o)  output_dir=$OPTARG
 			;;
+        l) local_assets="--theme-template /aglio/templates/index.jade"
+           ;;
 	esac
 done
 
@@ -53,6 +56,12 @@ for input_file_path in $input_dir/*.md; do
     
     output_file_path="$output_dir/$input_filename.html"
 
-    echo "Running 'aglio -i $input_file_path -o $output_file_path..."
-    aglio -i $input_file_path -o $output_file_path
+    echo "Running 'aglio $local_assets -i $input_file_path -o $output_file_path..."
+    aglio $local_assets -i $input_file_path -o $output_file_path
 done
+
+# copy in local assets
+if [ ! -z "$local_assets" ]; then
+  cp -R /aglio/assets/css $output_dir
+  cp -R /aglio/assets/fonts $output_dir
+fi

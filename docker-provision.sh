@@ -1,6 +1,7 @@
 #!/bin/sh -eux
 # docker-provision.sh --- Provisioning script for a Docker container w/Aglio.
 AGLIO_VERSION="2.2.0"
+FONT_AWESOME_VERSION="4.4.0"
 
 
 # General packages needed to build Node modules. This list is based on the list
@@ -12,9 +13,7 @@ apt-get update
 
 
 # install curl
-apt-get install -y --no-install-recommends \
-  ca-certificates \
-  curl
+apt-get install -y --no-install-recommends ca-certificates curl
 
 
 # install build packages
@@ -25,8 +24,19 @@ apt-get install -y --no-install-recommends $BUILD_PKGS
 npm install -g aglio@$AGLIO_VERSION
 
 
+# Download font awesome
+apt-get install -y --no-install-recommends unzip
+mkdir -p /aglio/assets
+cd /aglio/assets
+curl -O -j https://fortawesome.github.io/Font-Awesome/assets/font-awesome-$FONT_AWESOME_VERSION.zip
+unzip font-awesome-$FONT_AWESOME_VERSION.zip
+mv font-awesome-$FONT_AWESOME_VERSION/css /aglio/assets
+mv font-awesome-$FONT_AWESOME_VERSION/fonts /aglio/assets
+rm -r font-awesome-$FONT_AWESOME_VERSION*
+
+
 # remove installation dependencies
-apt-get -y purge curl ca-certificates $BUILD_PKGS
+apt-get -y purge curl ca-certificates unzip $BUILD_PKGS
 apt-get -y autoremove
 rm -rf /var/lib/apt/lists/* /root/.npm
 

@@ -4,6 +4,7 @@ ADD docker-provision.sh /tmp/
 RUN cd /tmp/ && sh docker-provision.sh
 
 ADD aglio-wrapper.sh /usr/local/bin/
+ADD templates /aglio/templates
 
 WORKDIR /docs
 
