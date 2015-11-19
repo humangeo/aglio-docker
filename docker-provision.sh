@@ -24,19 +24,47 @@ apt-get install -y --no-install-recommends $BUILD_PKGS
 npm install -g aglio@$AGLIO_VERSION
 
 
-# Download font awesome
-apt-get install -y --no-install-recommends unzip
+# Download external assets used by the "Olio" theme engine
 mkdir -p /aglio/assets
 cd /aglio/assets
-curl -O -j https://fortawesome.github.io/Font-Awesome/assets/font-awesome-$FONT_AWESOME_VERSION.zip
-unzip font-awesome-$FONT_AWESOME_VERSION.zip
-mv font-awesome-$FONT_AWESOME_VERSION/css /aglio/assets
-mv font-awesome-$FONT_AWESOME_VERSION/fonts /aglio/assets
-rm -r font-awesome-$FONT_AWESOME_VERSION*
+npm install
+npm run fonts
+mv node_modules/font-awesome/css /aglio/assets
+mv node_modules/font-awesome/fonts /aglio/assets
+rm -rf node_modules
+
+
+# Create a custom theme engine based on Olio
+cp -R /usr/local/lib/node_modules/aglio/node_modules/aglio-theme-olio /tmp/aglio-theme-olio-local
+cd /tmp/aglio-theme-olio-local
+
+# 1. edit package.json (change name and description)
+sed -i \
+    -e '/"name": "aglio-theme-olio"/s/olio/olio-local/' \
+    -e '/"description"/s/\("description": \)\(.*\)/\1"Modified verison of the default Olio theme that references local assets.",/' \
+    package.json
+
+# 2. edit templates/index.jade (swap css for local and remove footer)
+sed -i \
+    -e '/link/s|https://maxcdn.bootstrapcdn.com/font-awesome/[^/]*/||' \
+    -e "/p.text.muted/,/format('DD MMM YYYY')}$/d" \
+    templates/index.jade
+
+# 3. edit styles/variables-defaults.less (comment out google fonts)
+sed -i \
+    -e '/^@import/s||//&|p' \
+    styles/variables-default.less
+
+# 4. install custom package
+npm install -g
+
+# 5. remove dir
+cd /tmp
+rm -r aglio-theme-olio-local
 
 
 # remove installation dependencies
-apt-get -y purge curl ca-certificates unzip $BUILD_PKGS
+apt-get -y purge curl ca-certificates $BUILD_PKGS
 apt-get -y autoremove
 rm -rf /var/lib/apt/lists/* /root/.npm
 

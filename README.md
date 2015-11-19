@@ -71,7 +71,6 @@ To use this wrapper script specify `--entrypoint=/usr/local/bin/aglio-wrapper.sh
 docker run -ti -v /host/input_dir:/docker_in -v /host/output_dir:/docker_out --entrypoint=/usr/local/bin/aglio-wrapper.sh humangeo/aglio -i /docker_in -o /docker_out
 ```
 
-Note that even though you use the same `-i` and `-o` options that you would with the regular `aglio` command, in this case you are calling `aglio-wrapper.sh` which is expecting the values of those options to be **directories** and not files.
+> *NOTE*: Even though you use the same `-i` and `-o` options that you would with the regular `aglio` command, in this case you are calling `aglio-wrapper.sh` which is expecting the values of those options to be **directories** and not files.
 
-
-
+Additionally, you can set the `-l` option to replace external assets with local references (the `aglio-wrapper.sh` script will copy these assets into your output directory).

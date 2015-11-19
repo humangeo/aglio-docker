@@ -1,0 +1,13 @@
+{
+  "name": "aglio-docker",
+  "version": "1.0.0",
+  "description": "Static assets to include w/the aglio-docker image.",
+  "scripts": {
+    "fonts": "gulp"
+  },
+  "devDependencies": {
+    "font-awesome": "^4.4.0",
+    "gulp": "^3.9.0",
+    "gulp-google-webfonts": "0.0.9"
+  }
+}

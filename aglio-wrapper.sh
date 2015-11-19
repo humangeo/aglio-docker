@@ -20,7 +20,7 @@ while getopts "i:o:l" opt; do
 			;;
 		o)  output_dir=$OPTARG
 			;;
-        l) local_assets="--theme-template /aglio/templates/index.jade"
+        l) local_assets="-t olio-local --theme-style /aglio/templates/cte.less"
            ;;
 	esac
 done
@@ -62,6 +62,11 @@ done
 
 # copy in local assets
 if [ ! -z "$local_assets" ]; then
+  # copy Font Awesome assets
   cp -R /aglio/assets/css $output_dir
   cp -R /aglio/assets/fonts $output_dir
+
+  # copy Google Fonts
+  cp /aglio/assets/googlewebfonts/fonts/fonts/* $output_dir/fonts
+  cp /aglio/assets/googlewebfonts/googlewebfonts.css $output_dir
 fi
