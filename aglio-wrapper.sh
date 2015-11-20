@@ -20,7 +20,7 @@ while getopts "i:o:l" opt; do
 			;;
 		o)  output_dir=$OPTARG
 			;;
-        l) local_assets="-t olio-local --theme-style /aglio/templates/cte.less"
+        l) local_assets="-t olio-local --theme-style default --theme-style /aglio/templates/cte.less"
            ;;
 	esac
 done
