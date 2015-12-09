@@ -69,4 +69,7 @@ if [ ! -z "$local_assets" ]; then
   # copy Google Fonts
   cp /aglio/assets/googlewebfonts/fonts/fonts/* $output_dir/fonts
   cp /aglio/assets/googlewebfonts/googlewebfonts.css $output_dir
+
+  # loosen permissions of static assets
+  chmod -R 666 $output_dir/css $output_dir/fonts $output_dir/googlewebfonts.css
 fi
