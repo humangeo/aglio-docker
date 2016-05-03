@@ -79,5 +79,5 @@ if [ ! -z "$local_assets" ]; then
 
   # loosen permissions of static assets
   chmod -R 666 $output_dir/css $output_dir/fonts $output_dir/googlewebfonts.css
-  chmod +x $output_dir/css $output_dir/fonts
+  chmod +x $output_dir/css $output_dir/fonts $output_dir/js
 fi

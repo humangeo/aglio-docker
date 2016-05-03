@@ -82,6 +82,7 @@ rm -r aglio-theme-olio-local
 
 # remove installation dependencies
 apt-get -y purge curl ca-certificates $BUILD_PKGS
+apt-get -y clean
 apt-get -y autoremove
 rm -rf /var/lib/apt/lists/* /root/.npm /tmp/npm*
 
