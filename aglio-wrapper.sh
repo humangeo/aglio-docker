@@ -68,16 +68,14 @@ done
 
 # copy in local assets
 if [ ! -z "$local_assets" ]; then
-  # copy Font Awesome assets
-  cp -R /aglio/assets/css $output_dir
-  cp -R /aglio/assets/js $output_dir
-  cp -R /aglio/assets/fonts $output_dir
+  for d in css js fonts; do
+    cp -R /aglio/assets/$d $output_dir
+    chmod -R +rw $output_dir/$d
+    chmod +x $output_dir/$d
+  done
 
-  # copy Google Fonts
-  cp /aglio/assets/googlewebfonts/fonts/fonts/* $output_dir/fonts
   cp /aglio/assets/googlewebfonts/googlewebfonts.css $output_dir
 
   # loosen permissions of static assets
-  chmod -R 666 $output_dir/css $output_dir/fonts $output_dir/googlewebfonts.css
-  chmod -R +x $output_dir/css $output_dir/fonts $output_dir/js
+  chmod +rw $output_dir/googlewebfonts.css
 fi

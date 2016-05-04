@@ -2,6 +2,7 @@
 # docker-provision.sh --- Provisioning script for a Docker container w/Aglio.
 AGLIO_VERSION="2.2.0"
 FONT_AWESOME_VERSION="4.4.0"
+ASSETS_DIR=/aglio/assets
 
 
 # General packages needed to build Node modules. This list is based on the list
@@ -20,10 +21,6 @@ mv /tmp/aglio-wrapper.sh /usr/local/bin/
 apt-get update
 
 
-# install curl
-apt-get install -y --no-install-recommends ca-certificates curl
-
-
 # install build packages
 apt-get install -y --no-install-recommends $BUILD_PKGS
 
@@ -36,8 +33,12 @@ npm install -g aglio@$AGLIO_VERSION
 cd /aglio/assets
 npm install
 npm run fonts
-mv node_modules/font-awesome/css /aglio/assets
-mv node_modules/font-awesome/fonts /aglio/assets
+
+mkdir -p $ASSETS_DIR/fonts
+
+mv node_modules/font-awesome/fonts/*.* $ASSETS_DIR/fonts
+mv googlewebfonts/fonts/fonts/* $ASSETS_DIR/fonts
+mv node_modules/font-awesome/css $ASSETS_DIR
 rm -rf node_modules
 
 # get zepto
@@ -46,7 +47,7 @@ cd zepto
 npm install
 MODULES="zepto event ajax ie selector" npm run-script dist
 mkdir -p /aglio/assets/js
-cp dist/zepto.min.js /aglio/assets/js
+cp dist/zepto.min.js $ASSETS_DIR/js
 cd ..
 rm -rf zepto
 
@@ -81,7 +82,7 @@ rm -r aglio-theme-olio-local
 
 
 # remove installation dependencies
-apt-get -y purge curl ca-certificates $BUILD_PKGS
+apt-get -y purge $BUILD_PKGS
 apt-get -y clean
 apt-get -y autoremove
 rm -rf /var/lib/apt/lists/* /root/.npm /tmp/npm*

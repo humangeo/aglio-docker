@@ -4,6 +4,8 @@
 # Generated Files
 # --------------------
 **/target/antrun
+assets/googlewebfonts
+assets/node_modules
 
 
 # --------------------
