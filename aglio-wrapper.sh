@@ -1,16 +1,29 @@
-#!/bin/bash
+#!/bin/sh -eu
 #
-# aglio-wrapper.sh is a wrapper script that allows you run aglio on all .md files
-# in a directory and write out corresponding .html files to an output directory.
-#
+# aglio-wrapper.sh runs aglio on all .md files in a given input directory and
+# writes the corresponding .html output files to a given output directory.
 
-print_usage() {
-  echo "Usage: -i <input dir> -o <output dir> [-l]"
-}
-
+# --------------------
+# Globals
+# --------------------
 input_dir=""
 output_dir=""
 local_assets=""
+
+
+# --------------------
+# Functions
+# --------------------
+
+# Prints script usage message.
+print_usage() {
+  echo "Usage: -i <input dir> -o <output dir> [-l]" 1>&2;
+}
+
+
+# --------------------
+# CLI
+# --------------------
 
 # Note: place a colon after every option for which there should be an additional
 # option argument (e..g, -i <indir> means "i:").
@@ -70,12 +83,12 @@ done
 if [ ! -z "$local_assets" ]; then
   for d in css js fonts; do
     cp -R /aglio/assets/$d $output_dir
-    chmod -R +rw $output_dir/$d
-    chmod +x $output_dir/$d
+    chmod -R ugo+rw $output_dir/$d
+    chmod ugo+x $output_dir/$d
   done
 
   cp /aglio/assets/googlewebfonts/googlewebfonts.css $output_dir
 
   # loosen permissions of static assets
-  chmod +rw $output_dir/googlewebfonts.css
+  chmod ugo+rw $output_dir/googlewebfonts.css
 fi

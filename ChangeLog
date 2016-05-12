@@ -1,0 +1,33 @@
+2016-05-12  hg-jt  <hg-jt@users.noreply.github.com>
+
+	* Switched base image to use NodeJS  6.1
+
+	* Loosened file permissions of static assets
+
+	* Version 2.2.0-f (Aglio v2.2.0)
+
+2016-04-23  hg-jt  <hg-jt@users.noreply.github.com>
+
+	* Added mkdir call for creating output directory
+
+	* Added Zepto library to local static assets
+
+	* Cleaned up Docker configuration
+
+	* Version 2.2.0-c (Aglio v2.2.0)
+
+2015-11-19  hg-jt  <hg-jt@users.noreply.github.com>
+
+	* Added option for using local static assets
+
+	* Switched base image
+
+	* Upgrade to Aglio v2.2.0
+
+	* Version 2.2.0
+
+2015-10-15  hg-jt  <hg-jt@users.noreply.github.com>
+
+	* Added script for invoking Aglio on all .md files in a directory
+
+	* Version 2.1.1
