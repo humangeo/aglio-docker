@@ -1,4 +1,4 @@
-#!/bin/sh -eu
+#!/bin/bash -eu
 #
 # aglio-wrapper.sh runs aglio on all .md files in a given input directory and
 # writes the corresponding .html output files to a given output directory.

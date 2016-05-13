@@ -1,7 +1,5 @@
 2016-05-12  hg-jt  <hg-jt@users.noreply.github.com>
 
-	* Switched base image to use NodeJS  6.1
-
 	* Loosened file permissions of static assets
 
 	* Version 2.2.0-f (Aglio v2.2.0)
