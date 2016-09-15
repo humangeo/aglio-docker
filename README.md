@@ -14,7 +14,7 @@ There are several ways you can use this image to run Aglio. In all cases you wil
 
 To run aglio with the current directory mounted to `/docs`:
 
-    $ docker run -ti --rm -v .:/docs humangeo/aglio <path to your file>
+    $ docker run -ti --rm -v $PWD:/docs humangeo/aglio <path to your file>
 
 
 ### Use Case #2: Running Aglio From a Script
