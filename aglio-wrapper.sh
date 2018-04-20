@@ -9,6 +9,23 @@
 input_dir=""
 output_dir=""
 local_assets=""
+format_changelog=""
+changelog_created=""
+changelog_tmpl=${changelog_tmpl:-$(cat <<EOF
+\\
+# Group Navigation\\
+\\
+## Table of Contents\\
+\\
+ + [Service Overview](home.html)\\
+ + [RESTful API Documentation](rest.html)\\
+ + [Thrift API Documentation](thrift.html)\\
+ + [Changelog](changelog.html)\\
+\\
+\\
+# Group Changelog
+EOF
+)}
 
 
 # --------------------
@@ -27,7 +44,7 @@ print_usage() {
 
 # Note: place a colon after every option for which there should be an additional
 # option argument (e..g, -i <indir> means "i:").
-while getopts "i:o:l" opt; do
+while getopts "i:o:lc" opt; do
   case $opt in
     i)
       input_dir=$OPTARG
@@ -38,6 +55,8 @@ while getopts "i:o:l" opt; do
     l)
       local_assets="-t olio-local --theme-style default --theme-style /aglio/templates/cte.less"
       ;;
+    c)
+      format_changelog="true"
   esac
 done
 
@@ -63,6 +82,19 @@ if [ ! -d "$output_dir" ]; then
   exit 1;
 fi
 
+# format changelong for use with Aglio
+if [ -n "$format_changelog" ] && [ ! -f "$input_dir/changelog.md" ]; then
+  changelog_created="true"
+
+  if [ -f "$input_dir/CHANGELOG" ]; then
+    sed "2i\\
+  $changelog_tmpl\\
+" $input_dir/CHANGELOG > $input_dir/changelog.md
+  else
+    echo "WARNING: CHANGELOG does not exist!"
+  fi
+fi
+
 # Loop over *.md files in input directory
 for input_file_path in $input_dir/*.md; do
   if [[ "$input_file_path" == "$input_dir/*.md" ]]; then
@@ -78,6 +110,13 @@ for input_file_path in $input_dir/*.md; do
   echo "Running 'aglio $local_assets -i $input_file_path -o $output_file_path..."
   aglio $local_assets -i $input_file_path -o $output_file_path
 done
+
+# cleanup generated changelog
+if [ -n "$format_changelog" ] && [ -n "$changelog_created" ]; then
+  if [ -f $input_dir/changelog.md ]; then
+    rm $input_dir/changelog.md
+  fi
+fi
 
 # copy in local assets
 if [ ! -z "$local_assets" ]; then
