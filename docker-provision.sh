@@ -1,6 +1,6 @@
 #!/bin/sh -eux
 # docker-provision.sh --- Provisioning script for a Docker container w/Aglio.
-AGLIO_VERSION="2.2.0"
+AGLIO_VERSION="2.3.0"
 FONT_AWESOME_VERSION="4.4.0"
 ASSETS_DIR=/aglio/assets
 

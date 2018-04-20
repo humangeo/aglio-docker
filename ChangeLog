@@ -1,3 +1,7 @@
+2018-04-20  hg-jt  <hg-jt@users.noreply.github.com>
+
+	* Upgrade to Aglio v2.3.0
+
 2016-05-12  hg-jt  <hg-jt@users.noreply.github.com>
 
 	* Loosened file permissions of static assets
