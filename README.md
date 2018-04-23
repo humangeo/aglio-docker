@@ -4,11 +4,16 @@ Use this image to run [aglio](https://github.com/danielgtaylor/aglio), a NodeJS
 command-line tool that converts text files containing [Blueprint
 API](https://apiblueprint.org/) markup to HTML files.
 
-Why run aglio via Docker container instead of installing it "natively"?
-Currently aglio only works with a fairly old version of NodeJS (see the GitHub
-[issue](https://github.com/danielgtaylor/aglio/issues/172) for more info). By
-using this image you are not forced to keep an old version of NodeJS on your
-machine.
+### Why run aglio via Docker container instead of installing it "natively"?
+
+Originally, Aglio only worked with a fairly old version of NodeJS (see the
+GitHub [issue](https://github.com/danielgtaylor/aglio/issues/172) for more
+info). This image was intended to package Aglio with it's dependencies so that
+you were not forced to keep an old version of NodeJS in your development
+environment. This issue has since been resolved in Aglio, but the docker image
+is still useful. There are two features unique to this image: the ability to use
+local assets in the generated docs and the ability to process a direct of
+Markdown files.
 
 
 ## Usage
