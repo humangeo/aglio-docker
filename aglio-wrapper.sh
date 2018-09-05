@@ -20,7 +20,7 @@ changelog_tmpl=${changelog_tmpl:-$(cat <<EOF
  + [Service Overview](home.html)\\
  + [RESTful API Documentation](rest.html)\\
  + [Thrift API Documentation](thrift.html)\\
- + [Changelog](changelog.html)\\
+ + [Changelog](changelog.html) ([PDF](changelog.pdf))\\
 \\
 \\
 # Group Changelog
