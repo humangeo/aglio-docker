@@ -59,7 +59,7 @@ docs:
     (`~/.bashrc` or `~/.bash_profile`):
 
         # add local script to user's path
-        if [ -d $HOME/bin ] then;
+        if [ -d $HOME/bin ]; then
           export PATH=$HOME/bin:$PATH
         fi
 
